@@ -32,71 +32,53 @@ def testing():
 @app.route('/db_create')
 def creating():
     conn = psycopg2.connect("postgres://bui_minh_db_user:L2TSBM9xSicOTaRmsIMVwBjPPh4ifjQC@dpg-cglto707oslael5ffs80-a/bui_minh_db")
+    cur = conn.cursor()
     
-    c = conn.cursor()
-    directory = "models/"
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS account (
+        account_id INT PRIMARY KEY,
+        username VARCHAR(15) UNIQUE,
+        email VARCHAR(320) UNIQUE);
+    ''')
     
-    for table in table_names:
-        path = directory + table + ".txt"
-        
-        sql = open(path, "r")
-        command = sql.read()
-        sql.close()
-        
-        print(command, "\n")
-        c.execute(command)
-               
     conn.commit()
     conn.close()
+    return "Account Table Successfully Created"
 
 @app.route('/db_insert')
 def inserting():
     conn = psycopg2.connect("postgres://bui_minh_db_user:L2TSBM9xSicOTaRmsIMVwBjPPh4ifjQC@dpg-cglto707oslael5ffs80-a/bui_minh_db")
     cur = conn.cursor()
+    
     cur.execute('''
-        INSERT INTO Basketball (First, Last, City, Name, Number)
+        INSERT INTO account (?, ?, ?)
         Values
-        ('Jayson', 'Tatum', 'Boston', 'Celtics', 0),
-        ('Stephen', 'Curry', 'San Francisco', 'Warriors', 30),
-        ('Nikola', 'Jokic', 'Denver', 'Nuggets', 15),
-        ('Kawhi', 'Leonard', 'Los Angeles', 'Clippers', 2);
+        (0, "user1", "user1@example.com"),
+        (1, "user2", "user2@example.com"),
+        (2, "user3", "user3@example.com");
     ''')
+    
     conn.commit()
     conn.close()
-    return "Basketball Table Successfully Populated"
+    return "Account Table Successfully Populated"
 
 @app.route('/db_select')
 def selecting():
     conn = psycopg2.connect("postgres://bui_minh_db_user:L2TSBM9xSicOTaRmsIMVwBjPPh4ifjQC@dpg-cglto707oslael5ffs80-a/bui_minh_db")
     cur = conn.cursor()
-    cur.execute('''
-        SELECT * FROM Basketball;
-    ''')
-    records = cur.fetchall()
-    conn.close()
     
-    response_string = ""
-    response_string += "<table>"
-    
-    for player in records:
-        response_string += "<tr>"
-        
-        for info in player:
-            response_string += "<td>{}</td>".format(info)
-            
-        response_string += "<tr>"
-        
-    response_string += "<table>"
-    
-    return response_string
+    data = cur.execute("SELECT * FROM account")
+
+    for row in data:
+        print(row)
 
 @app.route('/db_drop')
 def dropping():
     conn = psycopg2.connect("postgres://bui_minh_db_user:L2TSBM9xSicOTaRmsIMVwBjPPh4ifjQC@dpg-cglto707oslael5ffs80-a/bui_minh_db")
     cur = conn.cursor()
     cur.execute('''
-        DROP TABLE Basketball;
+        DROP TABLE account;
     ''')
     conn.commit()
     conn.close()
-    return "Basketball Table Successfully Dropped"
+    return "Account Table Successfully Dropped"
