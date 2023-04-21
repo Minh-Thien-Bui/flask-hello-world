@@ -2,15 +2,6 @@ import psycopg2
 from flask import Flask
 app = Flask(__name__)
 
-table_names = [
-    "account",
-    "body_part",
-    "equipment",
-    "exercise",
-    "favorite"
-]
-
-
 @app.route('/')
 def hello_world():
     return 'Hulk Smash!'
@@ -90,8 +81,8 @@ def dropping():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     cur = conn.cursor()
     cur.execute('''
-        DROP TABLE account;
+        DELETE FROM account;
     ''')
     conn.commit()
     conn.close()
-    return "Account Table Successfully Dropped"
+    return "Account Table Successfully Cleared"
