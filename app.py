@@ -63,12 +63,27 @@ def inserting():
 @app.route('/db_select')
 def selecting():
     conn = psycopg2.connect("postgres://bui_minh_db_user:L2TSBM9xSicOTaRmsIMVwBjPPh4ifjQC@dpg-cglto707oslael5ffs80-a/bui_minh_db")
-    cur = conn.cursor()
     
+    cur = conn.cursor()
     data = cur.execute("SELECT * FROM account")
 
-    for row in data:
-        print(row)
+    records = cur.fetchall()
+    conn.close()
+    
+    response_string = ""
+    response_string += "<table>"
+    
+    for player in records:
+        response_string += "<tr>"
+        
+        for info in player:
+            response_string += "<td>{}</td>".format(info)
+            
+        response_string += "<tr>"
+        
+    response_string += "<table>"
+    
+    return response_string
 
 @app.route('/db_drop')
 def dropping():
