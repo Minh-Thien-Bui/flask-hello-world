@@ -51,7 +51,7 @@ def inserting():
     cur = conn.cursor()
     
     cur.execute('''
-        INSERT INTO account (?, ?, ?)
+        INSERT INTO account
         Values
         (0, "user1", "user1@example.com"),
         (1, "user2", "user2@example.com"),
