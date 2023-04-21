@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return 'Hulk Smash!'
 
 
 @app.route('/db_test')
@@ -14,29 +14,17 @@ def testing():
     #conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a/hulk")
     
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
-    c = conn.cursor()
-    
-    c.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    print ("Tables:")
-    
-    for t in c.fetchall() :
-        print ("\t[%s]"%t[0])
-        print ("\tColumns of", t[0])
-        c.execute("PRAGMA table_info(%s);"%t[0])
-        
-        for attr in c.fetchall() :
-            print ("\t\t", attr)
-            
-        print()
     
     conn.close()
+    
+    return "Connected to Hulk"
   
     
 @app.route('/db_create')
 def creating():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
-    c = conn.cursor()
     
+    c = conn.cursor()
     directory = "models/"
     
     table_names = [
@@ -52,23 +40,11 @@ def creating():
         
         sql = open(path, "r")
         command = sql.read()
-
         sql.close()
+        
+        print(command, "\n")
         c.execute(command)
-        
-    c.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    print ("Tables:")
-    
-    for t in c.fetchall() :
-        print ("\t[%s]"%t[0])
-        print ("\tColumns of", t[0])
-        c.execute("PRAGMA table_info(%s);"%t[0])
-        
-        for attr in c.fetchall() :
-            print ("\t\t", attr)
-            
-        print()
-        
+               
     conn.commit()
     conn.close()
 
