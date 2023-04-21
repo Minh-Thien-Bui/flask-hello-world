@@ -53,9 +53,7 @@ def inserting():
     cur.execute('''
         INSERT INTO account (account_id, username, email)
         Values
-        (0, "user1", "user1@example.com"),
-        (1, "user2", "user2@example.com"),
-        (2, "user3", "user3@example.com");
+        (23, 'LeBron', 'KingJames@nba.com');
     ''')
     
     conn.commit()
