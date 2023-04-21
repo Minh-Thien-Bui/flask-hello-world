@@ -6,6 +6,7 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, World!'
 
+
 @app.route('/db_test')
 def testing():
     #conn = psycopg2.connect("postgres://bui_minh_db_user:L2TSBM9xSicOTaRmsIMVwBjPPh4ifjQC@dpg-cglto707oslael5ffs80-a/bui_minh_db")
@@ -13,25 +14,63 @@ def testing():
     #conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a/hulk")
     
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    c = conn.cursor()
+    
+    c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    print ("Tables:")
+    
+    for t in c.fetchall() :
+        print ("\t[%s]"%t[0])
+        print ("\tColumns of", t[0])
+        c.execute("PRAGMA table_info(%s);"%t[0])
+        
+        for attr in c.fetchall() :
+            print ("\t\t", attr)
+            
+        print()
+    
     conn.close()
-    return "Database Connection Successful"
-
+  
+    
 @app.route('/db_create')
 def creating():
-    conn = psycopg2.connect("postgres://bui_minh_db_user:L2TSBM9xSicOTaRmsIMVwBjPPh4ifjQC@dpg-cglto707oslael5ffs80-a/bui_minh_db")
-    cur = conn.cursor()
-    cur.execute('''
-        CREATE TABLE IF NOT EXISTS Basketball(
-            First varchar(255),
-            Last varchar(255),
-            City varchar(255),
-            Name varchar(255),
-            Number int
-            );
-    ''')
+    conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    c = conn.cursor()
+    
+    directory = "models/"
+    
+    table_names = [
+        "account",
+        "body_part",
+        "equipment",
+        "exercise",
+        "favorite"
+    ]
+    
+    for table in table_names:
+        path = directory + table + ".txt"
+        
+        sql = open(path, "r")
+        command = sql.read()
+
+        sql.close()
+        c.execute(command)
+        
+    c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    print ("Tables:")
+    
+    for t in c.fetchall() :
+        print ("\t[%s]"%t[0])
+        print ("\tColumns of", t[0])
+        c.execute("PRAGMA table_info(%s);"%t[0])
+        
+        for attr in c.fetchall() :
+            print ("\t\t", attr)
+            
+        print()
+        
     conn.commit()
     conn.close()
-    return "Basketball Table Successfully Created"
 
 @app.route('/db_insert')
 def inserting():
