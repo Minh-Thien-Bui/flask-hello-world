@@ -42,7 +42,7 @@ def creating():
         sql.close()
 
         cur.execute(command)
-        response_string += command + "\n"
+        response_string += command + "\n\n\n"
         
     conn.commit()
     conn.close()
@@ -57,7 +57,7 @@ def inserting():
     
     response_string = ""
     directory = "models/insert_"
-    all_tables = ["account"]
+    all_tables = testing()
     
     for table in all_tables:
         path = directory + table + ".txt"
@@ -67,7 +67,7 @@ def inserting():
         sql.close()
 
         cur.execute(command)
-        response_string += command + "\n"
+        response_string += command + "\n\n\n"
         
     conn.commit()
     conn.close()
@@ -80,8 +80,8 @@ def selecting():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     cur = conn.cursor()
     
-    all_tables = testing()
     response_string = ""
+    all_tables = testing()
     
     for table in all_tables:
         command = "SELECT * FROM " + table
@@ -99,7 +99,7 @@ def selecting():
 
             response_string += "<tr>"
 
-        response_string += "<table>\n"
+        response_string += "<table>\n\n"
     
     conn.close()
     return response_string
@@ -116,7 +116,7 @@ def dropping():
     for table in all_tables:
         command = "DELETE FROM " + table
         cur.execute(command)
-        response_string += command + "\n"
+        response_string += command + "\n\n\n"
         
     conn.commit()
     conn.close()

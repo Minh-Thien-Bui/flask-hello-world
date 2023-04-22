@@ -1,0 +1,6 @@
+INSERT INTO body_part Values
+(0, 'Arms', 'Bicep Curl'),
+(1, 'Back', 'Rows'),
+(2, 'Legs', 'Squats'),
+(3, 'Abs', 'Sit-Ups'),
+(4, 'Cardio', 'Running');
