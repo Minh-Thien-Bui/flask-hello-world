@@ -192,14 +192,17 @@ def get_page_login(username, email):
     user_id = c.fetchall()
     
     try:
-        return user_id[0][0]
+        user_id = user_id[0][0]
+        user_id = str(user_id)
+        return user_id
     
     except:
         return "Login Failed: User Not Found"
 
-#TODO
-def authenticate():
-    pass
+@app.route('/authenticate/<username>/<email>')
+def authenticate(username, email):
+    login = get_page_login(username, email)
+    return login.isdigit()
 
 #TODO
 def add_favorite_exercise():

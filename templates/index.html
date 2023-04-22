@@ -33,6 +33,7 @@
         </a></li>
     </ul>
     
+    
     <h1>Exercise Details</h1>
     <ul>
         <li><a href = {{ url_for( 'get_page_exercise_details', exercise_id = 0 ) }}>
@@ -56,6 +57,7 @@
         </a></li>
     </ul>
     
+    
     <h1>Login</h1>
     <ul>
         <li><a href = {{ url_for( 'get_page_login', username = 'LeBron', email = 'KingJames@nba.com' ) }}>
@@ -74,6 +76,27 @@
             Invalid Login
         </a></li>
     </ul>
+    
+    
+    <h1>Authenticate</h1>
+    <ul>
+        <li><a href = {{ url_for( 'authenticate', username = 'LeBron', email = 'KingJames@nba.com' ) }}>
+            Authenticate LeBron
+        </a></li>
+        
+        <li><a href = {{ url_for( 'authenticate', username = 'Kobe', email = 'BeanBryant@nba.com' ) }}>
+            Authenticate Kobe
+        </a></li>
+        
+        <li><a href = {{ url_for( 'authenticate', username = 'Tom Brady', email = 'DeflateGate@nfl.com' ) }}>
+            Authenticate Brady
+        </a></li>
+        
+        <li><a href = {{ url_for( 'authenticate', username = 'Nobody', email = 'fake@news.com' ) }}>
+            Invalid Authentication
+        </a></li>
+    </ul>
+    
     
     <h1>User Favorites</h1>
     <ul>
