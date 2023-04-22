@@ -30,15 +30,18 @@ def creating():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     cur = conn.cursor()
     
-    cur.execute('''
-        CREATE TABLE IF NOT EXISTS account (
-        account_id INT PRIMARY KEY,
-        username VARCHAR(15) UNIQUE,
-        email VARCHAR(320) UNIQUE);
-    ''')
+    directory = "models/"
+    table = "account"
+    path = directory + table + ".txt"
     
+    sql = open(path, "r")
+    command = sql.read()
+    sql.close()
+    
+    cur.execute(command)
     conn.commit()
     conn.close()
+    
     return "Account Table Successfully Created"
 
 @app.route('/db_insert')
