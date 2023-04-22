@@ -1,5 +1,5 @@
 import psycopg2
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 @app.route('/')
@@ -58,7 +58,7 @@ def inserting():
     
     response_string = ""
     directory = "models/insert_"
-    all_tables = ["account", "body_part"]
+    all_tables = ["account", "body_part", "equipment", "exercise", "favorite"]
     
     for table in all_tables:
         path = directory + table + ".txt"
@@ -67,8 +67,12 @@ def inserting():
         command = sql.read()
         sql.close()
 
-        cur.execute(command)
-        conn.commit()
+        try:
+            cur.execute(command)
+            conn.commit()
+            
+        except:
+            response_string += "Failed: "
         
         response_string += command 
         response_string += "<br><br>"
