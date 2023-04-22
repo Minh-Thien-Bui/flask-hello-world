@@ -143,11 +143,32 @@ def dropping():
 @app.route('/exercise_details/<exercise_id>')
 def get_page_exercise_details(exercise_id):
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    c = conn.cursor()
     
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM exercise")
+    command = "SELECT * FROM exercise WHERE exercise_id = "
+    command += str(exercise_id) + ";"
+    c.execute(command)
     
-    details = [i[1] for i in cur.fetchall()]
+    data = c.fetchall()
+    data = data[0][1:]
+    body_part = data[2]
+    
+    command = "SELECT calories FROM body_part WHERE part_name = '"
+    command += body_part + "';"
+    c.execute(command)
+    
+    calories = c.fetchall()
+    calories = calories[0]
+    data += calories
+    
+    details = {
+        'exercise_name': data[0],
+        'exercise_description': data[1],
+        'body_part_name': data[2],
+        'equipment_name': data[3],
+        'calories': data[4],
+    }
+    
     return details
 
 #TODO
