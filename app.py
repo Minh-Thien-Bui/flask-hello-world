@@ -58,7 +58,7 @@ def inserting():
     
     response_string = ""
     directory = "models/insert_"
-    all_tables = ["account", "favorite"]
+    all_tables = ["exercise", "account"]
     
     for table in all_tables:
         path = directory + table + ".txt"
