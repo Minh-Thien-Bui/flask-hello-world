@@ -15,9 +15,15 @@ def testing():
     
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     
-    conn.close()
+    cur = conn.cursor()
+    cur.execute("SHOW TABLES")
+    all_tables = ""
+
+    for table in cur:
+        all_tables += table + "\n"
     
-    return "Connected to Hulk"
+    conn.close()
+    return all_tables
   
     
 @app.route('/db_create')
