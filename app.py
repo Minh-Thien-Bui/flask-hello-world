@@ -140,7 +140,7 @@ def dropping():
     return response_string
 
 
-@app.route('/exercise_details')
+@app.route('/exercise_details/<exercise_id>')
 def get_page_exercise_details(exercise_id):
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     
