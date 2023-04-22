@@ -53,9 +53,9 @@ def inserting():
     cur = conn.cursor()
     
     cur.execute('''
-        INSERT INTO account (account_id, username, email)
-        Values
-        (23, 'LeBron', 'KingJames@nba.com');
+        INSERT INTO account Values
+        (23, 'LeBron', 'KingJames@nba.com'),
+        (24, 'Kobe', 'BeanBryant@nba.com');
     ''')
     
     conn.commit()
@@ -73,9 +73,10 @@ def selecting():
     for table in all_tables:
         command = "SELECT * FROM " + table
         cur.execute(command)
-
         records = cur.fetchall()
-        response_string += "<table>"
+        
+        response_string += table
+        response_string += "\n<table>"
 
         for player in records:
             response_string += "<tr>"
