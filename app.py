@@ -16,17 +16,14 @@ def testing():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     
     cur = conn.cursor()
-    cur.execute("""SELECT table_name FROM information_schema.tables
-       WHERE table_schema = 'public'""")
-    
-    all_tables = ""
+    cur.execute("""SELECT relname FROM pg_class WHERE relkind='r'
+    AND relname !~ '^(pg_|sql_)';""") # "rel" is short for relation.
 
-    for table in cur.fetchall():
-        all_tables += table + "\n"
+    tables = [i[0] for i in cur.fetchall()] # A list() of tables.
     
     conn.close()
-    return all_tables
-  
+    return tables
+
     
 @app.route('/db_create')
 def creating():
