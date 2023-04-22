@@ -195,6 +195,46 @@ def add_favorite_exercise():
 def remove_favorite_exercise():
     pass
 
-#TODO
+@app.route('/user_favorites/<user_id>')
 def get_user_favorites():
-    pass
+    conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    c = conn.cursor()
+    
+    command = "SELECT username FROM account WHERE account_id = "
+    command += str(user_id) + ";"
+    c.execute(command)
+    
+    user_name = c.fetchall()
+    user_name = user_name[0][0]
+    
+    command = "SELECT favorite_exercise FROM favorite WHERE favorite_user = '"
+    command += user_name + "';"
+    c.execute(command)
+    
+    exercise_name = c.fetchall()
+    exercise_name = exercise_name[0][0]
+    
+    command = "SELECT exercise_id FROM exercise WHERE exercise_name = '"
+    command += exercise_name + "';"
+    c.execute(command)
+    
+    exercise_id = c.fetchall()
+    exercise_id = exercise_id[0][0]
+    
+    command = "SELECT * FROM exercise WHERE exercise_id = "
+    command += str(exercise_id) + ";"
+    c.execute(command)
+    
+    data = c.fetchall()
+    exercise_list = []
+    
+    for exercise in data:
+        details = {
+            'exercise_id': exercise[0],
+            'exercise_name': exercise[1],
+            'part_name': exercise[3],
+            'equipment_name': exercise[4]
+        }
+        exercise_list.append(details)
+    
+    return exercise_list

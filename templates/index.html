@@ -55,5 +55,20 @@
             Running Details
         </a></li>
     </ul>
+    
+    <h1>User Favorites</h1>
+    <ul>
+        <li><a href = {{ url_for( 'get_user_favorites', user_id = 23 ) }}>
+            LeBron's Favorites
+        </a></li>
+        
+        <li><a href = {{ url_for( 'get_user_favorites', user_id = 24 ) }}>
+            Kobe's Favorites
+        </a></li>
+        
+        <li><a href = {{ url_for( 'get_user_favorites', user_id = 12 ) }}>
+            Brady's Favorites
+        </a></li>
+    </ul>
 </body>
 </html>
