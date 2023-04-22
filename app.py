@@ -58,10 +58,11 @@ def inserting():
     
     response_string = ""
     directory = "models/insert_"
-    all_tables = ["body_part", "account"]
+    all_tables = ["account"]
     
     for table in all_tables:
         path = directory + table + ".txt"
+        response_string += path + "<br><br>"
 
         sql = open(path, "r")
         command = sql.read()
