@@ -202,7 +202,7 @@ def get_page_login(username, email):
 @app.route('/authenticate/<username>/<email>')
 def authenticate(username, email):
     login = get_page_login(username, email)
-    return login.isdigit()
+    return [login.isdigit()]
 
 #TODO
 def add_favorite_exercise():
