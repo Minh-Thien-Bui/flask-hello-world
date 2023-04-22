@@ -117,16 +117,15 @@ def dropping():
     cur = conn.cursor()
     
     response_string = ""
-    all_tables = testing()
+    all_tables = ["favorite", "exercise", "account", "body_part", "equipment"]
     
     for table in all_tables:
-        command = "DELETE FROM " + table
+        command = "DROP TABLE " + table + ";"
         cur.execute(command)
+        conn.commit()
         
         response_string += command
         response_string += "<br><br>"
         
-    conn.commit()
     conn.close()
-    
     return response_string
