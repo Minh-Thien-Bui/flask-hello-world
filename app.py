@@ -45,7 +45,7 @@ def creating():
     conn.commit()
     conn.close()
     
-    return "Account Table Successfully Created"
+    return "All Tables Successfully Created"
 
 @app.route('/db_insert')
 def inserting():
@@ -94,10 +94,14 @@ def selecting():
 @app.route('/db_drop')
 def dropping():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    
     cur = conn.cursor()
-    cur.execute('''
-        DELETE FROM account;
-    ''')
+    all_tables = testing()
+    
+    for table in all_tables:
+        command = "DELETE FROM " + table
+        cur.execute(command)
+        
     conn.commit()
     conn.close()
-    return "Account Table Successfully Cleared"
+    return "All Tables Successfully Cleared"
