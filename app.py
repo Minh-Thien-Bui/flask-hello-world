@@ -138,3 +138,42 @@ def dropping():
         
     conn.close()
     return response_string
+
+
+@app.route('/exercise_details')
+def get_page_exercise_details(exercise_id):
+    conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM exercise")
+    
+    details = [i[1] for i in cur.fetchall()]
+    return details
+
+#TODO
+def get_page_exercise_search():
+    pass
+
+#TODO
+def register_user():
+    pass
+
+#TODO
+def get_page_login():
+    pass
+
+#TODO
+def authenticate():
+    pass
+
+#TODO
+def add_favorite_exercise():
+    pass
+
+#TODO
+def remove_favorite_exercise():
+    pass
+
+#TODO
+def get_user_favorites():
+    pass
