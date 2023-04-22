@@ -181,7 +181,21 @@ def register_user():
 
 @app.route('/login/<username>/<email>')
 def get_page_login(username, email):
-    return [username, email]
+    conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    c = conn.cursor()
+    
+    command = "SELECT account_id FROM account WHERE username = '"
+    command += username + "' AND email = '"
+    command += email + "';"
+    
+    c.execute(command)
+    user_id = c.fetchall()
+    
+    try:
+        return user_id[0][0]
+    
+    except:
+        return "Login Failed: User Not Found"
 
 #TODO
 def authenticate():
