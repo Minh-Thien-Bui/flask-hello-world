@@ -179,9 +179,9 @@ def get_page_exercise_search():
 def register_user():
     pass
 
-#TODO
-def get_page_login():
-    pass
+@app.route('/login/<username>/<email>')
+def get_page_login(username, email):
+    return [username, email]
 
 #TODO
 def authenticate():

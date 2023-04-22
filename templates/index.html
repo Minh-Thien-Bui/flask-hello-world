@@ -56,6 +56,21 @@
         </a></li>
     </ul>
     
+    <h1>Login</h1>
+    <ul>
+        <li><a href = {{ url_for( 'get_user_favorites', username = 'LeBron', email = 'KingJames@nba.com' ) }}>
+            Login LeBron
+        </a></li>
+        
+        <li><a href = {{ url_for( 'get_user_favorites', username = 'Kobe', email = 'BeanBryant@nba.com' ) }}>
+            Login Kobe
+        </a></li>
+        
+        <li><a href = {{ url_for( 'get_user_favorites', username = 'Tom Brady', email = 'DeflateGate@nfl.com' ) }}>
+            Login Brady
+        </a></li>
+    </ul>
+    
     <h1>User Favorites</h1>
     <ul>
         <li><a href = {{ url_for( 'get_user_favorites', user_id = 23 ) }}>
