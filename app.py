@@ -42,7 +42,8 @@ def creating():
         sql.close()
 
         cur.execute(command)
-        response_string += command + "\n\n\n"
+        response_string += command 
+        response_string += "<br><br>"
         
     conn.commit()
     conn.close()
@@ -57,7 +58,7 @@ def inserting():
     
     response_string = ""
     directory = "models/insert_"
-    all_tables = testing()
+    all_tables = ["body_part", "account"]
     
     for table in all_tables:
         path = directory + table + ".txt"
@@ -67,7 +68,8 @@ def inserting():
         sql.close()
 
         cur.execute(command)
-        response_string += command + "\n\n\n"
+        response_string += command 
+        response_string += "<br><br>"
         
     conn.commit()
     conn.close()
@@ -89,7 +91,7 @@ def selecting():
         records = cur.fetchall()
         
         response_string += table
-        response_string += "\n<table>"
+        response_string += "<table>"
 
         for player in records:
             response_string += "<tr>"
@@ -99,7 +101,7 @@ def selecting():
 
             response_string += "<tr>"
 
-        response_string += "<table>\n\n"
+        response_string += "<table><br>"
     
     conn.close()
     return response_string
@@ -116,7 +118,9 @@ def dropping():
     for table in all_tables:
         command = "DELETE FROM " + table
         cur.execute(command)
-        response_string += command + "\n\n\n"
+        
+        response_string += command
+        response_string += "<br><br>"
         
     conn.commit()
     conn.close()
