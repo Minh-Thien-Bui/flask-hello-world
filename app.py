@@ -196,7 +196,7 @@ def remove_favorite_exercise():
     pass
 
 @app.route('/user_favorites/<user_id>')
-def get_user_favorites():
+def get_user_favorites(user_id):
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     c = conn.cursor()
     
