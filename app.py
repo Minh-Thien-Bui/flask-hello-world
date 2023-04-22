@@ -20,8 +20,8 @@ def testing():
     AND relname !~ '^(pg_|sql_)';""") # "rel" is short for relation.
 
     tables = [i[0] for i in cur.fetchall()] # A list() of tables.
-    
     conn.close()
+    
     return tables
 
     
@@ -30,8 +30,9 @@ def creating():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     cur = conn.cursor()
     
-    all_tables = ["body_part", "exercise", "equipment", "account", "favorite"]
+    response_string = ""
     directory = "models/"
+    all_tables = ["body_part", "exercise", "equipment", "account", "favorite"]
     
     for table in all_tables:
         path = directory + table + ".txt"
@@ -41,32 +42,44 @@ def creating():
         sql.close()
 
         cur.execute(command)
+        response_string += command + "\n"
         
     conn.commit()
     conn.close()
     
-    return "All Tables Successfully Created"
+    return response_string
+
 
 @app.route('/db_insert')
 def inserting():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     cur = conn.cursor()
     
-    cur.execute('''
-        INSERT INTO account Values
-        (23, 'LeBron', 'KingJames@nba.com'),
-        (24, 'Kobe', 'BeanBryant@nba.com');
-    ''')
+    response_string = ""
+    directory = "models/insert_"
+    all_tables = ["account"]
     
+    for table in all_tables:
+        path = directory + table + ".txt"
+
+        sql = open(path, "r")
+        command = sql.read()
+        sql.close()
+
+        cur.execute(command)
+        response_string += command + "\n"
+        
     conn.commit()
     conn.close()
-    return "Account Table Successfully Populated"
+    
+    return response_string
+
 
 @app.route('/db_select')
 def selecting():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
-    
     cur = conn.cursor()
+    
     all_tables = testing()
     response_string = ""
     
@@ -91,17 +104,21 @@ def selecting():
     conn.close()
     return response_string
 
+
 @app.route('/db_drop')
 def dropping():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
-    
     cur = conn.cursor()
+    
+    response_string = ""
     all_tables = testing()
     
     for table in all_tables:
         command = "DELETE FROM " + table
         cur.execute(command)
+        response_string += command + "\n"
         
     conn.commit()
     conn.close()
-    return "All Tables Successfully Cleared"
+    
+    return response_string
