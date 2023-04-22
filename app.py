@@ -61,24 +61,27 @@ def selecting():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     
     cur = conn.cursor()
-    data = cur.execute("SELECT * FROM account")
-
-    records = cur.fetchall()
-    conn.close()
-    
+    all_tables = testing()
     response_string = ""
-    response_string += "<table>"
     
-    for player in records:
-        response_string += "<tr>"
-        
-        for info in player:
-            response_string += "<td>{}</td>".format(info)
-            
-        response_string += "<tr>"
-        
-    response_string += "<table>"
+    for table in all_tables:
+        command = "SELECT * FROM " + table
+        cur.execute(command)
+
+        records = cur.fetchall()
+        response_string += "<table>"
+
+        for player in records:
+            response_string += "<tr>"
+
+            for info in player:
+                response_string += "<td>{}</td>".format(info)
+
+            response_string += "<tr>"
+
+        response_string += "<table>\n"
     
+    conn.close()
     return response_string
 
 @app.route('/db_drop')
