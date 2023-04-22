@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hulk Smash</title>
+</head>
+    
+<body>
+    <h1>Required Routes</h1>
+    <ul>
+        <li><a href = {{ url_for( 'index' ) }}>
+            Index
+        </a></li>
+        
+        <li><a href = {{ url_for( 'testing' ) }}>
+            List Tables
+        </a></li>
+        
+        <li><a href = {{ url_for( 'creating' ) }}>
+            Create
+        </a></li>
+        
+        <li><a href = {{ url_for( 'inserting' ) }}>
+            Insert
+        </a></li>
+        
+        <li><a href = {{ url_for( 'selecting' ) }}>
+            Select
+        </a></li>
+        
+        <li><a href = {{ url_for( 'dropping' ) }}>
+            Drop
+        </a></li>
+    </ul>
+</body>
+</html>

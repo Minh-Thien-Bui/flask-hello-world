@@ -3,8 +3,8 @@ from flask import Flask
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    return 'Hulk Smash!'
+def index():
+    return render_template('index.html')
 
 
 @app.route('/db_test')
@@ -58,7 +58,7 @@ def inserting():
     
     response_string = ""
     directory = "models/insert_"
-    all_tables = ["exercise", "account"]
+    all_tables = ["account", "body_part"]
     
     for table in all_tables:
         path = directory + table + ".txt"
@@ -68,12 +68,12 @@ def inserting():
         sql.close()
 
         cur.execute(command)
+        conn.commit()
+        
         response_string += command 
         response_string += "<br><br>"
         
-    conn.commit()
     conn.close()
-    
     return response_string
 
 
