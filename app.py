@@ -124,10 +124,15 @@ def dropping():
     all_tables = ["favorite", "exercise", "account", "body_part", "equipment"]
     
     for table in all_tables:
-        command = "DROP TABLE " + table + ";"
-        cur.execute(command)
-        conn.commit()
+        command = "DROP TABLE IF EXISTS " + table + ";"
         
+        try:
+            cur.execute(command)
+            conn.commit()
+        
+        except:
+            response_string += "Failed: "
+            
         response_string += command
         response_string += "<br><br>"
         
