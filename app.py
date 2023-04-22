@@ -30,15 +30,18 @@ def creating():
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
     cur = conn.cursor()
     
+    all_tables = ["body_part", "exercise", "equipment", "account", "favorite"]
     directory = "models/"
-    table = "account"
-    path = directory + table + ".txt"
     
-    sql = open(path, "r")
-    command = sql.read()
-    sql.close()
-    
-    cur.execute(command)
+    for table in all_tables:
+        path = directory + table + ".txt"
+
+        sql = open(path, "r")
+        command = sql.read()
+        sql.close()
+
+        cur.execute(command)
+        
     conn.commit()
     conn.close()
     
