@@ -32,7 +32,7 @@ def creating():
     
     response_string = ""
     directory = "models/"
-    all_tables = ["body_part", "exercise", "equipment", "account", "favorite"]
+    all_tables = ["account", "body_part", "equipment", "exercise", "favorite"]
     
     for table in all_tables:
         path = directory + table + ".txt"
@@ -41,13 +41,17 @@ def creating():
         command = sql.read()
         sql.close()
 
-        cur.execute(command)
+        try:
+            cur.execute(command)
+            conn.commit()
+            
+        except:
+            response_string += "Failed: "
+            
         response_string += command 
         response_string += "<br><br>"
         
-    conn.commit()
     conn.close()
-    
     return response_string
 
 
