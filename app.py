@@ -169,14 +169,15 @@ def get_page_exercise_details(exercise_id):
         'calories': data[4],
     }
     
+    conn.close()
     return details
 
 #TODO
 def get_page_exercise_search():
     pass
 
-#TODO
-def register_user():
+@app.route('/register/<username>/<email>')
+def register_user(username, email):
     pass
 
 @app.route('/login/<username>/<email>')
@@ -190,6 +191,7 @@ def get_page_login(username, email):
     
     c.execute(command)
     user_id = c.fetchall()
+    conn.close()
     
     try:
         user_id = user_id[0][0]
@@ -254,4 +256,5 @@ def get_user_favorites(user_id):
         }
         exercise_list.append(details)
     
+    conn.close()
     return exercise_list
