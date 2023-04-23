@@ -331,9 +331,60 @@ def add_favorite_exercise(user_id, exercise_id):
         return "Failed to Add New Favorite"
 
 
-#TODO
-def remove_favorite_exercise():
-    pass
+@app.route('/remove_favorite/<user_id>/<exercise_id>')
+def remove_favorite_exercise(user_id, exercise_id):
+    command = "SELECT username FROM account WHERE account_id = "
+    command += str(user_id) + ";"
+    
+    c.execute(command)
+    existing_user = c.fetchall()
+    
+    if len(existing_user) == 0:
+        conn.close()
+        return "User Not Found"
+    
+    command = "SELECT exercise_name FROM exercise WHERE exercise_id = "
+    command += str(exercise_id) + ";"
+    
+    c.execute(command)
+    existing_exercise = c.fetchall()
+    
+    if len(existing_exercise) == 0:
+        conn.close()
+        return "Exercise Not Found"
+    
+    username = existing_user[0][0]
+    exercise = existing_exercise[0][0]
+    
+    command = "SELECT * FROM favorite WHERE favorite_user = '"
+    command += username + "' AND favorite_exercise = '"
+    command += exercise + "';"
+    
+    c.execute(command)
+    existing_favorite = c.fetchall()
+    
+    if len(existing_favorite) == 0:
+        conn.close()
+        return "Favorite Not Found"
+    
+    try:
+        command = "DELETE FROM favorite WHERE favorite_user = '"
+        command += username + "' AND favorite_exercise = '"
+        command += exercise + "';"
+
+        c.execute(command)
+        conn.commit()
+        conn.close()
+        
+        result = "Favorite Successfully Removed <br>Username: "
+        result += username + "<br>Exercise: "
+        result += exercise
+        
+        return result
+        
+    except:
+        conn.close()
+        return "Favorite Removal Failed"
 
 
 @app.route('/user_favorites/<user_id>')
