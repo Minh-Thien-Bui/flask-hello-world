@@ -333,6 +333,9 @@ def add_favorite_exercise(user_id, exercise_id):
 
 @app.route('/remove_favorite/<user_id>/<exercise_id>')
 def remove_favorite_exercise(user_id, exercise_id):
+    conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    c = conn.cursor()
+    
     command = "SELECT username FROM account WHERE account_id = "
     command += str(user_id) + ";"
     
