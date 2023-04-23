@@ -178,6 +178,7 @@ def get_page_exercise_search():
     pass
 
 
+@app.route('/get_id/<requested_id>/<table>')
 def get_current_id(requested_id, table):
     command = "SELECT " + requested_id + " FROM " + table
     c.execute(command)
