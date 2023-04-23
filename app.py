@@ -178,22 +178,6 @@ def get_page_exercise_search():
     pass
 
 
-def get_current_id(requested_id, table):
-    command = "SELECT " + requested_id + " FROM " + table + ";"
-    c.execute(command)
-    
-    curr_id = 0
-    every_id = c.fetchall()
-    
-    for index in every_id:
-        index_id = index[0]
-        
-        if index_id >= curr_id:
-            curr_id = index_id + 1
-            
-    return str(curr_id)
-
-
 @app.route('/register/<username>/<email>')
 def register_user(username, email):
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
@@ -210,10 +194,21 @@ def register_user(username, email):
         conn.close()
         return "Username or Email already in use"
     
-    curr_id = get_current_id('account_id', 'account')
-    return curr_id
-    
     try:
+        command = "SELECT account_id FROM account;"
+        c.execute(command)
+
+        curr_id = 0
+        every_id = c.fetchall()
+
+        for index in every_id:
+            index_id = index[0]
+
+            if index_id >= curr_id:
+                curr_id = index_id + 1
+                
+        curr_id = str(curr_id)
+        
         command = "INSERT INTO account Values ("
         command += curr_id + ", '"
         command += username + "', '"
