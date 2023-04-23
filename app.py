@@ -206,19 +206,21 @@ def register_user(username, email):
         if acc_id >= curr_id:
             curr_id = acc_id + 1
     
+    curr_id = str(curr_id)
     command = "INSERT INTO account Values ("
-    command += str(curr_id) + ", '"
+    command += curr_id + ", '"
     command += username + "', '"
     command += email + "');"
     
     try:
         c.execute(command)
         conn.commit()
-        conn.close()
         
-        registration = "Successfully Registrated <br>Username: "
+        registration = "Successfully Registrated <br>User ID: "
+        registration += curr_id + "<br>Username: "
         registration += username + "<br>Email Address: "
         registration += email
+        
         return registration
         
     except:
