@@ -406,31 +406,33 @@ def get_user_favorites(user_id):
     command += user_name + "';"
     c.execute(command)
     
-    exercise_name = c.fetchall()
-    exercise_name = exercise_name[0][0]
-    
-    command = "SELECT exercise_id FROM exercise WHERE exercise_name = '"
-    command += exercise_name + "';"
-    c.execute(command)
-    
-    exercise_id = c.fetchall()
-    exercise_id = exercise_id[0][0]
-    
-    command = "SELECT * FROM exercise WHERE exercise_id = "
-    command += str(exercise_id) + ";"
-    c.execute(command)
-    
-    data = c.fetchall()
     exercise_list = []
+    fav_exercises = c.fetchall()
+    fav_exercises = fav_exercises
     
-    for exercise in data:
-        details = {
-            'exercise_id': exercise[0],
-            'exercise_name': exercise[1],
-            'part_name': exercise[3],
-            'equipment_name': exercise[4]
-        }
-        exercise_list.append(details)
+    for exercise in fav_exercises:
+        exercise_name = exercise[0]
+        command = "SELECT exercise_id FROM exercise WHERE exercise_name = '"
+        command += exercise_name + "';"
+        c.execute(command)
+
+        exercise_id = c.fetchall()
+        exercise_id = exercise_id[0][0]
+
+        command = "SELECT * FROM exercise WHERE exercise_id = "
+        command += str(exercise_id) + ";"
+        
+        c.execute(command)
+        data = c.fetchall()
+        
+        for exercise in data:
+            details = {
+                'exercise_id': exercise[0],
+                'exercise_name': exercise[1],
+                'part_name': exercise[3],
+                'equipment_name': exercise[4]
+            }
+            exercise_list.append(details)
     
     conn.close()
     return exercise_list
