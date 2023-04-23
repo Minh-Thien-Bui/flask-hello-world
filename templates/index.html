@@ -58,6 +58,18 @@
     </ul>
     
     
+    <h1>Register</h1>
+    <ul>
+        <li><a href = {{ url_for( 'register_user', username = 'Kevin Durant', email = 'Durantula@nba.com' ) }}>
+            Register Kevin Durant
+        </a></li>
+        
+        <li><a href = {{ url_for( 'register_user', username = 'Kevin Durant', email = 'Burner@account.gov' ) }}>
+            Durant's Burner Account
+        </a></li>
+    </ul>
+    
+    
     <h1>Login</h1>
     <ul>
         <li><a href = {{ url_for( 'get_page_login', username = 'LeBron', email = 'KingJames@nba.com' ) }}>

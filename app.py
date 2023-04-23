@@ -172,14 +172,60 @@ def get_page_exercise_details(exercise_id):
     conn.close()
     return details
 
+
 #TODO
 def get_page_exercise_search():
     pass
 
+
 @app.route('/register/<username>/<email>')
 def register_user(username, email):
-    pass
+    conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    c = conn.cursor()
+    
+    command = "SELECT * FROM account WHERE username = '"
+    command += username + "' OR email = '"
+    command += email + "';"
+    
+    c.execute(command)
+    existing_user = c.fetchall()
+    
+    if len(existing_user) != 0:
+        conn.close()
+        return "Username or Email already in use"
+    
+    command = "SELECT account_id FROM account"
+    c.execute(command)
+    
+    curr_id = 0
+    user_id = c.fetchall()
+    
+    for user in user_id:
+        acc_id = user[0]
+        
+        if acc_id >= curr_id:
+            curr_id = acc_id + 1
+    
+    command = "INSERT INTO account Values ("
+    command += str(curr_id) + ", '"
+    command += username + "', '"
+    command += email + "');"
+    
+    try:
+        c.execute(command)
+        conn.commit()
+        conn.close()
+        
+        registration = "Successfully Registrated <br>Username: "
+        registration += username + "<br>Email Address: "
+        registration += email
+        return registration
+        
+    except:
+        conn.close()
+        return "Registration Failed"
 
+    
 @app.route('/login/<username>/<email>')
 def get_page_login(username, email):
     conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
@@ -201,18 +247,22 @@ def get_page_login(username, email):
     except:
         return "Login Failed: User Not Found"
 
+    
 @app.route('/authenticate/<username>/<email>')
 def authenticate(username, email):
     login = get_page_login(username, email)
     return [login.isdigit()]
 
+
 #TODO
 def add_favorite_exercise():
     pass
 
+
 #TODO
 def remove_favorite_exercise():
     pass
+
 
 @app.route('/user_favorites/<user_id>')
 def get_user_favorites(user_id):
