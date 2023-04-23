@@ -110,6 +110,26 @@
     </ul>
     
     
+    <h1>Add Favorite</h1>
+    <ul>
+        <li><a href = {{ url_for( 'add_favorite_exercise', user_id = 23, exercise_id = 4 ) }}>
+            Add Favorite: LeBron Running
+        </a></li>
+        
+        <li><a href = {{ url_for( 'add_favorite_exercise', user_id = 23, exercise_id = 0 ) }}>
+            Favorite Already Exists
+        </a></li>
+        
+        <li><a href = {{ url_for( 'add_favorite_exercise', user_id = -3, exercise_id = 0 ) }}>
+            User Doesn't Exist
+        </a></li>
+        
+        <li><a href = {{ url_for( 'add_favorite_exercise', user_id = 23, exercise_id = -1 ) }}>
+            Exercise Doesn't Exist
+        </a></li>
+    </ul>
+    
+    
     <h1>User Favorites</h1>
     <ul>
         <li><a href = {{ url_for( 'get_user_favorites', user_id = 23 ) }}>

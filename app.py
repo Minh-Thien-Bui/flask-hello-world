@@ -208,7 +208,6 @@ def register_user(username, email):
                 curr_id = index_id + 1
                 
         curr_id = str(curr_id)
-        
         command = "INSERT INTO account Values ("
         command += curr_id + ", '"
         command += username + "', '"
@@ -260,7 +259,76 @@ def authenticate(username, email):
 
 @app.route('/add_favorite/<user_id>/<exercise_id>')
 def add_favorite_exercise(user_id, exercise_id):
-    pass
+    conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    c = conn.cursor()
+    
+    command = "SELECT username FROM account WHERE account_id = "
+    command += str(user_id) + ";"
+    
+    c.execute(command)
+    existing_user = c.fetchall()
+    
+    if len(existing_user) == 0:
+        conn.close()
+        return "User Not Found"
+    
+    command = "SELECT exercise_name FROM exercise WHERE exercise_id = "
+    command += str(exercise_id) + ";"
+    
+    c.execute(command)
+    existing_exercise = c.fetchall()
+    
+    if len(existing_exercise) == 0:
+        conn.close()
+        return "Exercise Not Found"
+    
+    username = existing_user[0][0]
+    exercise = existing_exercise[0][0]
+    
+    command = "SELECT * FROM favorite WHERE favorite_user = '"
+    command += username + "' AND favorite_exercise = '"
+    command += exercise + "';"
+    
+    c.execute(command)
+    existing_user = c.fetchall()
+    
+    if len(existing_user) != 0:
+        conn.close()
+        return "Favorite Already Exists"
+    
+    try:
+        command = "SELECT favorite_id FROM favorite;"
+        c.execute(command)
+
+        curr_id = 0
+        every_id = c.fetchall()
+
+        for index in every_id:
+            index_id = index[0]
+
+            if index_id >= curr_id:
+                curr_id = index_id + 1
+                
+        curr_id = str(curr_id)
+        command = "INSERT INTO favorite Values ("
+        command += curr_id + ", '"
+        command += username + "', '"
+        command += exercise + "');"
+        
+        c.execute(command)
+        conn.commit()
+        conn.close()
+        
+        result = "Added New Favorite <br>Favorite ID: "
+        result += curr_id + "<br>Username: "
+        result += username + "<br>Exercise: "
+        result += exercise
+        
+        return result
+        
+    except:
+        conn.close()
+        return "Failed to Add New Favorite"
 
 
 #TODO
