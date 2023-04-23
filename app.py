@@ -178,9 +178,8 @@ def get_page_exercise_search():
     pass
 
 
-@app.route('/get_id/<requested_id>/<table>')
 def get_current_id(requested_id, table):
-    command = "SELECT " + requested_id + " FROM " + table
+    command = "SELECT " + requested_id + " FROM " + table + ";"
     c.execute(command)
     
     curr_id = 0
@@ -211,9 +210,10 @@ def register_user(username, email):
         conn.close()
         return "Username or Email already in use"
     
+    curr_id = get_current_id('account_id', 'account')
+    return curr_id
+    
     try:
-        curr_id = get_current_id('account_id', 'account')
-        
         command = "INSERT INTO account Values ("
         command += curr_id + ", '"
         command += username + "', '"
