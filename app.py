@@ -245,8 +245,8 @@ def get_page_exercise_search(part_name, equipment_name, user_id = None):
     return search_results
 
 
-@app.route('/exercise_details/<test_part>/<equipment_name>')
-@app.route('/exercise_details/<test_part>/<equipment_name>/<user_id>')
+@app.route('/exercise_details/<test_part>/<test_equipment>')
+@app.route('/exercise_details/<test_part>/<test_equipment>/<user_id>')
 def test_page_exercise_search(test_part, test_equipment, user_id = None):
     part_name = []
     equipment_name = []

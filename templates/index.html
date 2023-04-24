@@ -63,6 +63,18 @@
         <li><a href = {{ url_for( 'test_page_exercise_search', test_part = True, test_equipment = True ) }}>
             Search Without User
         </a></li>
+        
+        <li><a href = {{ url_for( 'test_page_exercise_search', test_part = True, test_equipment = True, user_id = 23 ) }}>
+            Search With User
+        </a></li>
+        
+        <li><a href = {{ url_for( 'test_page_exercise_search', test_part = False, test_equipment = False ) }}>
+            Search Without Body Parts
+        </a></li>
+        
+        <li><a href = {{ url_for( 'test_page_exercise_search', test_part = True, test_equipment = False, user_id = 23 ) }}>
+            Search Without Exercise
+        </a></li>
     </ul>
     
     
