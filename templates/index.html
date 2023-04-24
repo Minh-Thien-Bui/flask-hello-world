@@ -60,12 +60,20 @@
     
     <h1>Exercise Search</h1>
     <ul>
-        <li><a href = {{ url_for( 'test_page_exercise_search', user_id = 23 ) }}>
-            User Search
+        <li><a href = {{ url_for( 'test_page_exercise_search', test_part = 1, test_equipment = 1 ) }}>
+            Search Without User
         </a></li>
         
-        <li><a href = {{ url_for( 'test_page_exercise_search' ) }}>
-            Search Without User
+        <li><a href = {{ url_for( 'test_page_exercise_search', test_part = 1, test_equipment = 1, user_id = 23 ) }}>
+            Search With User
+        </a></li>
+        
+        <li><a href = {{ url_for( 'test_page_exercise_search', test_part = 'Empty', test_equipment = 'Empty' ) }}>
+            Search Without Body Parts
+        </a></li>
+        
+        <li><a href = {{ url_for( 'test_page_exercise_search', test_part = 1, test_equipment = 'Empty', user_id = 23 ) }}>
+            Search Without Exercise
         </a></li>
     </ul>
     
