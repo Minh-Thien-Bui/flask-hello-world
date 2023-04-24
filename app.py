@@ -245,18 +245,11 @@ def get_page_exercise_search(part_name, equipment_name, user_id = None):
     return search_results
 
 
-@app.route('/exercise_details/<test_part>/<test_equipment>')
-@app.route('/exercise_details/<test_part>/<test_equipment>/<user_id>')
-def test_page_exercise_search(test_part, test_equipment, user_id = None):
-    part_name = []
-    equipment_name = []
-    
-    if test_part != 0:
-        part_name = ['Arms', 'Back', 'Legs', 'Cardio']
-        
-    if test_equipment != 0:
-        equipment_name = ['Dumbells', 'None']
-        
+@app.route('/exercise_details')
+@app.route('/exercise_details/<user_id>')
+def test_page_exercise_search(user_id = None):
+    part_name = ['Arms', 'Back', 'Legs', 'Cardio']    
+    equipment_name = ['Dumbells', 'None']
     return get_page_exercise_search(part_name, equipment_name, user_id)
         
 
