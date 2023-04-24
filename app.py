@@ -173,8 +173,8 @@ def get_page_exercise_details(exercise_id):
     return details
 
 
-@app.route('/exercise_search/<part_name>/<equipment_name>')
-@app.route('/exercise_search/<part_name>/<equipment_name>/<user_id>')
+@app.route('/exercise_search')
+@app.route('/exercise_search/<user_id>')
 def get_page_exercise_search(part_name, equipment_name, user_id = None):
     if len(part_name) == 0:
         return []
