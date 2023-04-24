@@ -173,9 +173,78 @@ def get_page_exercise_details(exercise_id):
     return details
 
 
-#TODO
-def get_page_exercise_search():
-    pass
+@app.route('/exercise_search/<part_name>/<equipment_name>')
+@app.route('/exercise_search/<part_name>/<equipment_name>/<user_id>')
+def get_page_exercise_search(part_name, equipment_name, user_id = None):
+    if len(part_name) == 0:
+        return []
+    
+    conn = psycopg2.connect("postgres://hulk_user:sJ7uTRAXdhTsJQGOLD9Yq0uhsVBchdAE@dpg-cgrkvt1mbg5e4kh44l70-a.oregon-postgres.render.com/hulk")
+    c = conn.cursor()
+    
+    command = """
+    SELECT *
+    FROM exercise
+    WHERE (exercise_body_part = '"""
+    
+    for body in part_name[:-1]:
+        command += body + "' OR exercise_body_part = '"
+    
+    if len(equipment_name) == 0:
+        command += part_name[-1] + "');"
+        
+    else:
+        command += part_name[-1] + "') AND (exercise_equipment = '"
+
+        for equip in equipment_name[:-1]:
+            command += equip + "' OR exercise_equipment = '"
+
+        command += equipment_name[-1] + "');"
+    
+    c.execute(command)
+    exercises = c.fetchall()
+    search_results = []
+    
+    for data in exercises:
+        details = {
+            'exercise_id': data[0],
+            'exercise_name': data[1],
+            'part_name': data[3],
+            'equipment_name': data[4]
+        }
+        search_results.append(details)
+    
+    if user_id == None:
+        conn.close()
+        return search_results
+    
+    command = "SELECT username FROM account WHERE account_id = "
+    command += str(user_id) + ";"
+    
+    c.execute(command)
+    user = c.fetchall()
+    
+    if len(user) == 0:
+        return "User Not Found"
+    
+    user = user[0][0]
+    
+    for result in search_results:
+        command = "SELECT favorite_id FROM favorite WHERE favorite_user = '"
+        command += user + "' AND favorite_exercise = '"
+        command += result['exercise_name'] + "';"
+        
+        c.execute(command)
+        favs_found = c.fetchall()
+        
+        if len(favs_found) == 0:
+            result['favorite'] = False
+            
+        else:
+            result['favorite'] = True
+            
+    conn.close()
+    return search_results
 
 
 @app.route('/register/<username>/<email>')

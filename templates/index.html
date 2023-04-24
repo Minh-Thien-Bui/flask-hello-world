@@ -58,6 +58,30 @@
     </ul>
     
     
+    <h1>Exercise Search</h1>
+    <ul>
+        <li><a href = {{ url_for( 'get_page_exercise_search', part_name = ['Arms', 'Back', 'Legs', 'Cardio'], equipment_name = ['Dumbells', 'None'] ) }}>
+            Search Without User
+        </a></li>
+        
+        <li><a href = {{ url_for( 'get_page_exercise_search', part_name = ['Arms', 'Back', 'Legs', 'Cardio'], equipment_name = ['Dumbells', 'None'], user_id = 23 ) }}>
+            Search With User
+        </a></li>
+        
+        <li><a href = {{ url_for( 'get_page_exercise_search', part_name = ['Arms', 'Back', 'Legs', 'Cardio'], equipment_name = ['Dumbells', 'None'], user_id = -3 ) }}>
+            Search With Invalid User
+        </a></li>
+        
+        <li><a href = {{ url_for( 'get_page_exercise_search', part_name = [], equipment_name = ['Dumbells', 'None'], user_id = 23 ) }}>
+            Search Without Body Parts
+        </a></li>
+        
+        <li><a href = {{ url_for( 'get_page_exercise_search', part_name = ['Arms', 'Back', 'Legs', 'Cardio'], equipment_name = [] ) }}>
+            Search Without Equipment
+        </a></li>
+    </ul>
+    
+    
     <h1>Register</h1>
     <ul>
         <li><a href = {{ url_for( 'register_user', username = 'Kevin Durant', email = 'Durantula@nba.com' ) }}>
