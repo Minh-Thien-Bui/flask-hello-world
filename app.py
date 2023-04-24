@@ -251,10 +251,10 @@ def test_page_exercise_search(test_part, test_equipment, user_id = None):
     part_name = []
     equipment_name = []
     
-    if test_part is True:
+    if test_part != 0:
         part_name = ['Arms', 'Back', 'Legs', 'Cardio']
         
-    if test_equipment is True:
+    if test_equipment != 0:
         equipment_name = ['Dumbells', 'None']
         
     return get_page_exercise_search(part_name, equipment_name, user_id)
