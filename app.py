@@ -173,8 +173,6 @@ def get_page_exercise_details(exercise_id):
     return details
 
 
-@app.route('/exercise_search')
-@app.route('/exercise_search/<user_id>')
 def get_page_exercise_search(part_name, equipment_name, user_id = None):
     if len(part_name) == 0:
         return []
@@ -246,6 +244,21 @@ def get_page_exercise_search(part_name, equipment_name, user_id = None):
     conn.close()
     return search_results
 
+
+@app.route('/exercise_details/<test_part>/<equipment_name>')
+@app.route('/exercise_details/<test_part>/<equipment_name>/<user_id>')
+def test_page_exercise_search(test_part, test_equipment, user_id = None):
+    part_name = []
+    equipment_name = []
+    
+    if test_part is True:
+        part_name = ['Arms', 'Back', 'Legs', 'Cardio']
+        
+    if test_equipment is True:
+        equipment_name = ['Dumbells', 'None']
+        
+    return get_page_exercise_search(part_name, equipment_name, user_id)
+        
 
 @app.route('/register/<username>/<email>')
 def register_user(username, email):
